@@ -70,8 +70,8 @@ public class Floor
         return true;
     }
 
-    public IEnumerable<System.Tuple<Vector2Int, Room.Type>> GetRooms()
-        => _rooms.Select(x => new System.Tuple<Vector2Int, Room.Type>(x.Key, x.Value.GetRoomType()));
+    public ReadOnlyCollection<KeyValuePair<Vector2Int, Room>> GetRooms()
+        => _rooms.ToList().AsReadOnly();
 
     /// <summary>
     /// Keep track of each room along with it position in the world
