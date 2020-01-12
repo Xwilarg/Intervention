@@ -49,33 +49,36 @@ public class BuildingManager : MonoBehaviour
         int mostLeft = rooms.Min(x => x.Key.x);
         int mostUp = rooms.Max(x => x.Key.y);
         Dictionary<Vector2Int, GameObject> toRender = new Dictionary<Vector2Int, GameObject>();
-        foreach (var room in rooms)
+        foreach (var room in rooms) // Display rooms
         {
-            for (int x = 0; x < roomSize; x++)
+            if (room.Value.GetRoomType() == Room.Type.Normal)
             {
-                for (int y = 0; y < roomSize; y++)
+                for (int x = 0; x < roomSize; x++)
                 {
-                    Vector2Int pos = (room.Key * (roomSize - 1)) + new Vector2Int(x, y);
-                    if (toRender.ContainsKey(pos)) // We already draw that tile (some walls overlaps)
-                        continue;
+                    for (int y = 0; y < roomSize; y++)
+                    {
+                        Vector2Int pos = (room.Key * (roomSize - 1)) + new Vector2Int(x, y);
+                        if (toRender.ContainsKey(pos)) // We already draw that tile (some walls overlaps)
+                            continue;
 
-                    GameObject currTile;
-                    if (!showInside) // Normally we don't show the inside of buildings
-                        currTile = wallTile;
-                    else if (x == 0 || y == 0 || x == roomSize - 1 || y == roomSize - 1) // Border of rooms
-                        currTile = wallTile;
-                    else
-                        currTile = floorTile;
+                        GameObject currTile;
+                        if (!showInside) // Normally we don't show the inside of buildings
+                            currTile = wallTile;
+                        else if (x == 0 || y == 0 || x == roomSize - 1 || y == roomSize - 1) // Border of rooms
+                            currTile = wallTile;
+                        else
+                            currTile = floorTile;
 
-                    toRender.Add(pos, currTile);
+                        toRender.Add(pos, currTile);
+                    }
                 }
             }
         }
-        if (showInside) // Generate inside doors
+        foreach (var room in rooms) // Display doors
         {
-            foreach (var room in rooms)
+            Vector2Int pos = room.Key * (roomSize - 1);
+            if (room.Value.GetRoomType() == Room.Type.Entrance || showInside)
             {
-                Vector2Int pos = room.Key * (roomSize - 1);
                 if (room.Value.GetRoomDown() != null)
                     toRender[pos + (Vector2Int.right * roomSize / 2)] = doorTile;
                 if (room.Value.GetRoomUp() != null)
@@ -84,7 +87,6 @@ public class BuildingManager : MonoBehaviour
                     toRender[pos + (Vector2Int.up * roomSize / 2)] = doorTile;
                 if (room.Value.GetRoomRight() != null)
                     toRender[pos + new Vector2Int(roomSize - 1, roomSize / 2)] = doorTile;
-
             }
         }
         foreach (var elem in toRender) // Instantiate everything

@@ -32,7 +32,7 @@ public class Floor
         {
             maxTries--;
             if (maxTries == 0)
-                throw new System.TimeoutException("Failed to generate a map after " + _maxNumberOfRoom * 10 + " tries");
+                throw new System.TimeoutException("Failed to generate a map after " + (_maxNumberOfRoom * 10) + " tries");
             var normalRooms = _rooms.Where(x => x.Value.GetRoomType() == Room.Type.Normal);
             var selectedRoom = normalRooms.ElementAt(Random.Range(0, normalRooms.Count()));
             var directions = selectedRoom.Value.GetAvailablePositions();
@@ -62,10 +62,10 @@ public class Floor
         // Make sure the line that go in the invert way to the entrance is kept empty
         // For example if the entrance (at 0;0) is up, then we won't place any room from 0;0 to 0;-infinity
         // We make that to be sure we always can enter in the building
-        if (pos.x == 0 && _entranceDirection == Direction.Up && pos.y < 0 ||
-            pos.x == 0 && _entranceDirection == Direction.Down && pos.y > 0 ||
-            pos.y == 0 && _entranceDirection == Direction.Left && pos.x > 0 ||
-            pos.y == 0 && _entranceDirection == Direction.Right && pos.x < 0)
+        if ((pos.x == 0 && _entranceDirection == Direction.Up && pos.y < 0) ||
+            (pos.x == 0 && _entranceDirection == Direction.Down && pos.y > 0) ||
+            (pos.y == 0 && _entranceDirection == Direction.Left && pos.x > 0) ||
+            (pos.y == 0 && _entranceDirection == Direction.Right && pos.x < 0))
             return false;
         return true;
     }
