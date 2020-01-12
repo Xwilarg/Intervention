@@ -7,6 +7,9 @@ public class BuildingManager : MonoBehaviour
     [SerializeField]
     private GameObject floorTile, wallTile, doorTile;
 
+    [SerializeField]
+    private Transform parent;
+
     private Floor floor;
     private const int roomSize = 11; // Number of tile per room, must be an even number because of doors
     private const float tileSize = .1f; // Size of a tile in the game world
@@ -91,7 +94,9 @@ public class BuildingManager : MonoBehaviour
         }
         foreach (var elem in toRender) // Instantiate everything
         {
-            tiles.Add(Instantiate(elem.Value, (Vector2)elem.Key * tileSize, Quaternion.identity));
+            GameObject go = Instantiate(elem.Value, parent);
+            go.transform.position = ((Vector2)elem.Key * tileSize) + (Vector2)parent.position;
+            tiles.Add(go);
         }
     }
 }

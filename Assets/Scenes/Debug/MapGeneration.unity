@@ -319,3 +319,4 @@ MonoBehaviour:
     type: 3}
   doorTile: {fileID: 4007081811344772526, guid: b7427c9b1f96ea64197120032fb20862,
     type: 3}
+  parent: {fileID: 1918245449}
