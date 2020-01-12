@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using UnityEngine;
 
@@ -6,7 +7,7 @@ public class Floor
 {
     public Floor()
     {
-        _rooms = new Dictionary<Vector2, Room>();
+        _rooms = new Dictionary<Vector2Int, Room>();
         Generate();
     }
 
@@ -17,7 +18,7 @@ public class Floor
     {
         _rooms.Clear(); // Make sure that we don't already have some rooms (if the function is called twice)
         Room entrance = new Room(Room.Type.Entrance);
-        _rooms.Add(Vector2.zero, entrance); // Entrance always is at 0;0
+        _rooms.Add(Vector2Int.zero, entrance); // Entrance always is at 0;0
         _entranceDirection = (Direction)Random.Range(0, 4);
         Room firstRoom = new Room(Room.Type.Normal);
         _rooms.Add(DirectionToVector(_entranceDirection), firstRoom);
@@ -54,7 +55,7 @@ public class Floor
     /// Make sure the room doesn't obstruct the entrance or any other room
     /// </summary>
     /// <param name="pos">Position of the new room</param>
-    private bool IsRoomPositionValid(Vector2 pos)
+    private bool IsRoomPositionValid(Vector2Int pos)
     {
         if (_rooms.Any(x => x.Key == pos)) // Check is there is already something at the room position
             return false;
@@ -69,27 +70,30 @@ public class Floor
         return true;
     }
 
+    public IEnumerable<System.Tuple<Vector2Int, Room.Type>> GetRooms()
+        => _rooms.Select(x => new System.Tuple<Vector2Int, Room.Type>(x.Key, x.Value.GetRoomType()));
+
     /// <summary>
     /// Keep track of each room along with it position in the world
     /// We consider that the entrance is at 0;0 and place rooms around it
     /// </summary>
-    private Dictionary<Vector2, Room> _rooms;
+    private Dictionary<Vector2Int, Room> _rooms;
     private Direction _entranceDirection; // Where the entrace is, so we don't build of top or around it
 
     private const int _minNumberOfRoom = 8;
     private const int _maxNumberOfRoom = 12;
 
     /// <summary>
-    /// Get a Vector2 given a Direction
+    /// Get a Vector2Int given a Direction
     /// </summary>
-    private Vector2 DirectionToVector(Direction dir)
+    private Vector2Int DirectionToVector(Direction dir)
     {
         switch (dir)
         {
-            case Direction.Up: return Vector2.up;
-            case Direction.Down: return Vector2.down;
-            case Direction.Left: return Vector2.left;
-            case Direction.Right: return Vector2.right;
+            case Direction.Up: return Vector2Int.up;
+            case Direction.Down: return Vector2Int.down;
+            case Direction.Left: return Vector2Int.left;
+            case Direction.Right: return Vector2Int.right;
             default: throw new System.ArgumentOutOfRangeException("Invalid Direction " + dir);
         }
     }
