@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class ShopManager : MonoBehaviour
@@ -35,7 +36,7 @@ public class ShopManager : MonoBehaviour
 
     private void DisplayShop()
     {
-        foreach (var eq in available)
+        foreach (var eq in available) // Prepare shop with equipement
         {
             RectTransform currTransform; // Get the correct parent panel
             int index;
@@ -65,6 +66,16 @@ public class ShopManager : MonoBehaviour
             rTransform.anchoredPosition = rTransform.anchoredPosition + new Vector2(0f, yOffset * index);
             go.GetComponent<ShopElement>().Init(eq);
         }
+        int i = 0;
+        foreach (var sq in availableSquads)
+        {
+
+            GameObject go = Instantiate(shopElementPrefab, transformSquads);
+            var rTransform = go.GetComponent<RectTransform>();
+            rTransform.anchoredPosition = rTransform.anchoredPosition + new Vector2(0f, yOffset * i);
+            go.GetComponent<ShopElement>().Init(new Equipement(sq.name, sq.description + "\n\nContent: " + string.Join(", ", sq.content.Select(x => x.name)), sq.content.Sum(x => x.price), (Equipement.Type)(-1)));
+            i++;
+        }
     }
 
     private readonly Equipement[] available = new[]
@@ -73,6 +84,8 @@ public class ShopManager : MonoBehaviour
         recruit, firstClass, secondClass, carporal, sergeant,
         assaultGun
     };
+
+    private readonly Squad[] availableSquads = new[] { basicSquad, trainedSquad };
 
     /// ---------- SPECIALIZATIONS
     private static readonly Equipement speNone = new Equipement("None", "No specialization. Start with a Handgun.", 0, Equipement.Type.Specialisation);
@@ -89,9 +102,9 @@ public class ShopManager : MonoBehaviour
     private static readonly Equipement spellDispell = new Equipement("Dispell", "Neutralize an enemy spell.", 0, Equipement.Type.Spell);
 
     /// ---------- TROOPS
-    private static readonly Equipement recruit = new Equipement("Recruit", "Freshly recruited soldier, have no experience on the field.", 100, Equipement.Type.Troop);
-    private static readonly Equipement firstClass = new Equipement("First Class", "Soldier that only did a few missions on the field.", 150, Equipement.Type.Troop);
-    private static readonly Equipement secondClass = new Equipement("Second Class", "Soldier that already have a lot of experience on the field. Second class soldier and higher can have a specialization.", 200, Equipement.Type.Troop);
+    private static readonly Equipement recruit = new Equipement("Recruit", "Freshly recruited soldier, have no experience on the field.\nDon't expect too much from them.", 50, Equipement.Type.Troop);
+    private static readonly Equipement secondClass = new Equipement("Second Class", "Soldier that only did a few missions on the field.", 150, Equipement.Type.Troop);
+    private static readonly Equipement firstClass = new Equipement("First Class", "Soldier that already have a lot of experience on the field. Second class soldier and higher can have a specialization.", 200, Equipement.Type.Troop);
     private static readonly Equipement carporal = new Equipement("Carporal", "Along with being an experienced soldier, have some knowledge in leadership.", 300, Equipement.Type.Troop);
     private static readonly Equipement sergeant = new Equipement("Sergeant", "Veterant soldier who also have a lot of experience in leadership.", 400, Equipement.Type.Troop);
 
@@ -123,4 +136,8 @@ public class ShopManager : MonoBehaviour
     private static readonly Equipement magicAnalyzer = new Equipement("Magic Analyzer", "Analyze the magic concentration in the near air.", 200, Equipement.Type.Specialisation);
 
     /// ---------- LOGISTICS
+    private static readonly Squad basicSquad = new Squad("Intervention Squad", "A basic intervention squad", new[] { carporal, secondClass, secondClass, secondClass, assaultGun, assaultGun, assaultGun, assaultGun });
+    private static readonly Squad trainedSquad = new Squad("Trained Intervention Squad", "An intervention squad with high level soldiers.", new[] { sergeant, firstClass, firstClass, firstClass, assaultGun, assaultGun, assaultGun, assaultGun });
+    private static readonly Squad defenseSquad = new Squad("Defense Squad", "A squad formed to defend a position", new[] { carporal, secondClass, secondClass, secondClass, assaultGun, assaultGun, assaultGun, hmg, claymore, claymore });
+    private static readonly Squad offensiveSquad = new Squad("Offensive Squad", "A squad formed for highly offensive attack", new[] { carporal, secondClass, secondClass, secondClass, smg, smg, smg, shotgun, explosiveGrenade, explosiveGrenade, flashGrenade, flashGrenade });
 }
