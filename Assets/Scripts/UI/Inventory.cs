@@ -9,4 +9,7 @@ public class Inventory : MonoBehaviour
     {
         equipements = new List<Equipement>();
     }
+
+    public void AddEquipement(Equipement eq)
+        => equipements.Add(eq);
 }

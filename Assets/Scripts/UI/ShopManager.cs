@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Inventory))]
 public class ShopManager : MonoBehaviour
 {
     [SerializeField]
@@ -9,12 +11,14 @@ public class ShopManager : MonoBehaviour
 
     [SerializeField]
     private RectTransform transformTroops, transformEquipements, transformLogistics, transformSquads;
-    private int troopIndex, equipementIndex, logisticIndex, squadIndex;
+    private int troopIndex, equipementIndex, logisticIndex;
 
     [SerializeField]
     private GameObject shopElementPrefab;
 
     private int credits;
+    private Inventory inventory;
+    private List<ShopElement> shopElems; // All the elements of the shop
 
     private const float yOffset = -150f;
 
@@ -23,15 +27,51 @@ public class ShopManager : MonoBehaviour
         troopIndex = -1;
         equipementIndex = -1;
         logisticIndex = -1;
-        squadIndex = -1;
         credits = 1000;
+        inventory = GetComponent<Inventory>();
+        shopElems = new List<ShopElement>();
         DisplayCredits();
         DisplayShop();
+        CheckAvailability();
     }
 
     private void DisplayCredits()
     {
         creditsDisplay.text = "Remaining Credits: " + credits;
+    }
+
+    private void Buy(ShopElement elem)
+    {
+        inventory.AddEquipement(elem.GetEquipement());
+        RemoveMoney(elem);
+    }
+
+    private void BuySquad(ShopElement elem)
+    {
+        var squad = availableSquads.Where(x => x.name == elem.GetEquipement().name).First(); // We find the corresponding squad given the shop element
+        foreach (var e in squad.content) // Add all elements of the squad in the inventory
+            inventory.AddEquipement(e);
+        RemoveMoney(elem);
+    }
+
+    /// <summary>
+    /// Remove some money after buying an item
+    /// </summary>
+    /// <param name=""></param>
+    private void RemoveMoney(ShopElement elem)
+    {
+        credits -= elem.GetPrice();
+        CheckAvailability();
+        DisplayCredits();
+    }
+
+    /// <summary>
+    /// Check for all shop items if the player have enough money to buy them
+    /// </summary>
+    private void CheckAvailability()
+    {
+        foreach (var e in shopElems)
+            e.CheckCanBuy(credits);
     }
 
     private void DisplayShop()
@@ -64,7 +104,9 @@ public class ShopManager : MonoBehaviour
             GameObject go = Instantiate(shopElementPrefab, currTransform);
             var rTransform = go.GetComponent<RectTransform>();
             rTransform.anchoredPosition = rTransform.anchoredPosition + new Vector2(0f, yOffset * index);
-            go.GetComponent<ShopElement>().Init(eq);
+            ShopElement se = go.GetComponent<ShopElement>();
+            se.Init(eq, Buy);
+            shopElems.Add(se);
         }
         int i = 0;
         foreach (var sq in availableSquads)
@@ -73,7 +115,9 @@ public class ShopManager : MonoBehaviour
             GameObject go = Instantiate(shopElementPrefab, transformSquads);
             var rTransform = go.GetComponent<RectTransform>();
             rTransform.anchoredPosition = rTransform.anchoredPosition + new Vector2(0f, yOffset * i);
-            go.GetComponent<ShopElement>().Init(new Equipement(sq.name, sq.description + "\n\nContent: " + string.Join(", ", sq.content.Select(x => x.name)), sq.content.Sum(x => x.price), (Equipement.Type)(-1)));
+            ShopElement se = go.GetComponent<ShopElement>();
+            se.Init(new Equipement(sq.name, sq.description + "\n\nContent: " + string.Join(", ", sq.content.Select(x => x.name)), sq.content.Sum(x => x.price), (Equipement.Type)(-1)), BuySquad);
+            shopElems.Add(se);
             i++;
         }
     }
@@ -81,7 +125,7 @@ public class ShopManager : MonoBehaviour
     private readonly Equipement[] available = new[]
     {
         speNone,
-        recruit, firstClass, secondClass, carporal, sergeant,
+        recruit, secondClass, firstClass, carporal, sergeant,
         assaultGun
     };
 
