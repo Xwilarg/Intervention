@@ -181,6 +181,6 @@ public class ShopManager : MonoBehaviour
     /// ---------- LOGISTICS
     private static readonly Squad basicSquad = new Squad("Intervention Squad", "A basic intervention squad", new AEquipement[] { carporal, secondClass, secondClass, secondClass, assaultGun, assaultGun, assaultGun, assaultGun });
     private static readonly Squad trainedSquad = new Squad("Trained Intervention Squad", "An intervention squad with high level soldiers.", new AEquipement[] { sergeant, firstClass, firstClass, firstClass, assaultGun, assaultGun, assaultGun, assaultGun });
-    private static readonly Squad defenseSquad = new Squad("Defense Squad", "A squad formed to defend a position", new AEquipement[] { carporal, secondClass, secondClass, secondClass, assaultGun, assaultGun, assaultGun, hmg, claymore, claymore });
-    private static readonly Squad offensiveSquad = new Squad("Offensive Squad", "A squad formed for highly offensive attack", new AEquipement[] { carporal, secondClass, secondClass, secondClass, smg, smg, smg, shotgun, explosiveGrenade, explosiveGrenade, flashGrenade, flashGrenade });
+    //private static readonly Squad defenseSquad = new Squad("Defense Squad", "A squad formed to defend a position", new AEquipement[] { carporal, secondClass, secondClass, secondClass, assaultGun, assaultGun, assaultGun, hmg, claymore, claymore });
+    //private static readonly Squad offensiveSquad = new Squad("Offensive Squad", "A squad formed for highly offensive attack", new AEquipement[] { carporal, secondClass, secondClass, secondClass, smg, smg, smg, shotgun, explosiveGrenade, explosiveGrenade, flashGrenade, flashGrenade });
 }
