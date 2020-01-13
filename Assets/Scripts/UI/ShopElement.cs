@@ -12,14 +12,14 @@ public class ShopElement : MonoBehaviour
     private Button buyButton;
 
     private int priceInt;
-    private Equipement currEquipement;
+    private AEquipement currEquipement;
 
-    public void Init(Equipement eq, Action<ShopElement> buyCallback)
+    public void Init(AEquipement eq, Action<ShopElement> buyCallback)
     {
-        title.text = eq.name;
-        description.text = eq.description;
-        price.text = "Price: " + eq.price;
-        priceInt = eq.price;
+        title.text = eq.GetName();
+        description.text = eq.GetDescription();
+        priceInt = eq.GetPrice();
+        price.text = "Price: " + priceInt;
         buyButton.onClick.AddListener(new UnityAction(() => buyCallback(this)));
         currEquipement = eq;
     }
@@ -37,6 +37,6 @@ public class ShopElement : MonoBehaviour
     public int GetPrice()
         => priceInt;
 
-    public Equipement GetEquipement()
+    public AEquipement GetEquipement()
         => currEquipement;
 }

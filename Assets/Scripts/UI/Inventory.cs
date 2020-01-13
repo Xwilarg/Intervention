@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    private List<Equipement> equipements;
+    private List<AEquipement> equipements;
 
     private void Start()
     {
-        equipements = new List<Equipement>();
+        equipements = new List<AEquipement>();
     }
 
-    public void AddEquipement(Equipement eq)
+    public void AddEquipement(AEquipement eq)
         => equipements.Add(eq);
 }
