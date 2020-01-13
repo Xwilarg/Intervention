@@ -15,7 +15,7 @@ public class ShopManager : MonoBehaviour
 
     private int credits;
 
-    private const float yOffset = -50f;
+    private const float yOffset = -150f;
 
     private void Start()
     {
