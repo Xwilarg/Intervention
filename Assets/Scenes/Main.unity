@@ -4667,6 +4667,8 @@ MonoBehaviour:
   transformEquipements: {fileID: 1245243263}
   transformLogistics: {fileID: 862147849}
   transformSquads: {fileID: 1850741586}
+  shopElementPrefab: {fileID: 2891511045833743953, guid: d9918465f95e83444a0ed659a4e41ec3,
+    type: 3}
 --- !u!1 &1921438020
 GameObject:
   m_ObjectHideFlags: 0
