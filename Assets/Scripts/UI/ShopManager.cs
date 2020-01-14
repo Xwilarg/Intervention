@@ -146,11 +146,11 @@ public class ShopManager : MonoBehaviour
     private static readonly Spell spellDispell = new Spell("Dispell", "Neutralize an enemy spell.", 0);
 
     /// ---------- TROOPS
-    private static readonly Unit recruit = new Unit("Recruit", "Freshly recruited soldier, have no experience on the field.\nDon't expect too much from them.", 50);
-    private static readonly Unit secondClass = new Unit("Second Class", "Soldier that only did a few missions on the field.", 150);
-    private static readonly Unit firstClass = new Unit("First Class", "Soldier that already have a lot of experience on the field. Second class soldier and higher can have a specialization.", 200);
-    private static readonly Unit carporal = new Unit("Carporal", "Along with being an experienced soldier, have some knowledge in leadership.", 300);
-    private static readonly Unit sergeant = new Unit("Sergeant", "Veterant soldier who also have a lot of experience in leadership.", 400);
+    private static readonly Unit recruit = new Unit("Recruit", "Freshly recruited soldier, have no experience on the field.\nDon't expect too much from them.", 50, Unit.Grade.PV1);
+    private static readonly Unit secondClass = new Unit("Second Class", "Soldier that only did a few missions on the field.", 150, Unit.Grade.PV2);
+    private static readonly Unit firstClass = new Unit("First Class", "Soldier that already have a lot of experience on the field. Second class soldier and higher can have a specialization.", 200, Unit.Grade.PFC);
+    private static readonly Unit carporal = new Unit("Carporal", "Along with being an experienced soldier, have some knowledge in leadership.", 300, Unit.Grade.CPL);
+    private static readonly Unit sergeant = new Unit("Sergeant", "Veterant soldier who also have a lot of experience in leadership.", 400, Unit.Grade.SGT);
 
     /// ---------- EQUIPEMENTS
     private static readonly Weapon stungun = new Weapon("Stungun", "An incapacitating weapon that must be used in close contact.", 10);
