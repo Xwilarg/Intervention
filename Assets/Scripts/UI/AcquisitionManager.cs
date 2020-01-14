@@ -26,8 +26,10 @@ public class AcquisitionManager : MonoBehaviour
     [SerializeField]
     private RectTransform currentAddButton;
 
+    private const float addButtonYInit = 70f;
     private const float selectionYOffset = -35f;
     private const float squadYOffset = -75f;
+    private const float squadYInit = -120f;
 
     private Inventory inventory;
     private List<GameObject> selectionList;
@@ -44,17 +46,17 @@ public class AcquisitionManager : MonoBehaviour
     {
         ClearSelection();
         int index = 0;
-        foreach (var item in inventory.GetEquipements(AEquipement.Type.Troop))
+        foreach (var item in inventory.GetEquipements(AEquipement.Type.Troop)) // Add selection items
         {
             GameObject go = Instantiate(selectionAcquisitionPrefab, selectionAcquisitionParent);
             var rTransform = go.GetComponent<RectTransform>();
             rTransform.anchoredPosition += new Vector2(0f, selectionYOffset * index);
-            go.GetComponent<SelectionAcquisition>().Init(item.GetName(), () =>
+            go.GetComponent<SelectionAcquisition>().Init(item.GetName(), () => // Unit added to team
             {
                 GameObject goSquad = Instantiate(squadPrefab, squadParent);
                 var rTransformSquad = goSquad.GetComponent<RectTransform>();
                 rTransformSquad.anchoredPosition += new Vector2(0f, squadYOffset * squadList.Count);
-                if (squadList.Count == 3)
+                if (squadList.Count == 3) // Move "Add Soldier" button
                 {
                     Destroy(currentAddButton.gameObject);
                     currentAddButton = null;
@@ -63,6 +65,31 @@ public class AcquisitionManager : MonoBehaviour
                 {
                     currentAddButton.anchoredPosition += new Vector2(0f, squadYOffset);
                 }
+                goSquad.GetComponent<SquadAcquisition>().Init(item.GetName(), () => // Edit unit
+                {
+
+                }, () => // Remove unit
+                {
+                    squadList.Remove(goSquad);
+                    Destroy(goSquad);
+                    int i = 0;
+                    foreach (var sqGo in squadList)
+                    {
+                        var sqGoRTransform = sqGo.GetComponent<RectTransform>();
+                        sqGoRTransform.anchoredPosition = new Vector2(sqGoRTransform.anchoredPosition.x, squadYInit + (squadYOffset * i));
+                        i++;
+                    }
+                    RectTransform goIRTransform;
+                    // Move "Add Soldier" button
+                    if (currentAddButton == null) // Button doesn't exist so we re instantiate it
+                    {
+                        GameObject goI = Instantiate(addButtonPrefab, squadParent);
+                        currentAddButton = goI.GetComponent<RectTransform>();
+                    }
+                    currentAddButton.anchoredPosition = new Vector2(currentAddButton.anchoredPosition.x, addButtonYInit + (squadYOffset * squadList.Count)); // Move button to correct position
+                    inventory.UnequipUnit((Unit)item);
+                    ClearSelection();
+                });
                 squadList.Add(goSquad);
                 inventory.EquipUnit((Unit)item);
                 ClearSelection();

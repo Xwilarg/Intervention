@@ -24,4 +24,10 @@ public class Inventory : MonoBehaviour
         squad.Add(unit);
         equipements.Remove(unit);
     }
+
+    public void UnequipUnit(Unit unit)
+    {
+        squad.Remove(unit);
+        equipements.Add(unit);
+    }
 }
