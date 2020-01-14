@@ -27,6 +27,7 @@ public class Inventory : MonoBehaviour
 
     public void UnequipUnit(Unit unit)
     {
+        unit.RemoveSquadLeader();
         squad.Remove(unit);
         equipements.Add(unit);
     }

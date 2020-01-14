@@ -11,7 +11,7 @@
     private string description;
     private int price;
 
-    public string GetName()
+    public virtual string GetName()
         => name;
 
     public string GetDescription()

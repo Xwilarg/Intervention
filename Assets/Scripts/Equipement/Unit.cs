@@ -10,6 +10,15 @@ public class Unit : AEquipement
         unitName = GenerateName();
     }
 
+    public void SetSquadLeader()
+        => isSquadLeader = true;
+
+    public void RemoveSquadLeader()
+        => isSquadLeader = false;
+
+    public override string GetName()
+        => base.GetName() + (isSquadLeader ? " (Squad Leader)" : "");
+
     public override Type GetEquipementType()
         => Type.Troop;
 
@@ -17,6 +26,7 @@ public class Unit : AEquipement
     private Race race;
     private Grade grade;
     private string unitName;
+    private bool isSquadLeader;
 
     private enum Gender
     {

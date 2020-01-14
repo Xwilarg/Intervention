@@ -11,12 +11,19 @@ public class SquadAcquisition : MonoBehaviour
     [SerializeField]
     private Button editButton, removeButton;
 
-    private Unit equipement;
+    private Unit unit;
 
-    public void Init(string mitemName, Action editCallback, Action removeCallback)
+    public Unit GetUnit()
+        => unit;
+
+    public void Init(Unit munit, Action editCallback, Action removeCallback)
     {
-        itemName.text = mitemName;
+        itemName.text = munit.GetName();
         editButton.onClick.AddListener(new UnityAction(editCallback));
         removeButton.onClick.AddListener(new UnityAction(removeCallback));
+        unit = munit;
     }
+
+    public void UpdateName()
+        => itemName.text = unit.GetName();
 }

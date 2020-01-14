@@ -46,7 +46,7 @@ public class AcquisitionManager : MonoBehaviour
     {
         ClearSelection();
         int index = 0;
-        foreach (var item in inventory.GetEquipements(AEquipement.Type.Troop)) // Add selection items
+        foreach (Unit item in inventory.GetEquipements(AEquipement.Type.Troop)) // Add selection items
         {
             GameObject go = Instantiate(selectionAcquisitionPrefab, selectionAcquisitionParent);
             var rTransform = go.GetComponent<RectTransform>();
@@ -65,7 +65,9 @@ public class AcquisitionManager : MonoBehaviour
                 {
                     currentAddButton.anchoredPosition += new Vector2(0f, squadYOffset);
                 }
-                goSquad.GetComponent<SquadAcquisition>().Init(item.GetName(), () => // Edit unit
+                if (squadList.Count == 0) // If it's the first unit we add, set it as squad leader
+                    item.SetSquadLeader();
+                goSquad.GetComponent<SquadAcquisition>().Init(item, () => // Edit unit
                 {
 
                 }, () => // Remove unit
@@ -75,11 +77,16 @@ public class AcquisitionManager : MonoBehaviour
                     int i = 0;
                     foreach (var sqGo in squadList)
                     {
+                        if (i == 0) // Make sure first unit is squad leader
+                        {
+                            var sqGoSa = sqGo.GetComponent<SquadAcquisition>();
+                            sqGoSa.GetUnit().SetSquadLeader();
+                            sqGoSa.UpdateName();
+                        }
                         var sqGoRTransform = sqGo.GetComponent<RectTransform>();
                         sqGoRTransform.anchoredPosition = new Vector2(sqGoRTransform.anchoredPosition.x, squadYInit + (squadYOffset * i));
                         i++;
                     }
-                    RectTransform goIRTransform;
                     // Move "Add Soldier" button
                     if (currentAddButton == null) // Button doesn't exist so we re instantiate it
                     {
