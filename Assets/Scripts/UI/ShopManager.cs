@@ -14,6 +14,7 @@ public class ShopManager : MonoBehaviour
     private int troopIndex, equipementIndex, logisticIndex;
 
     [SerializeField]
+    [Tooltip("Prefab for the element you can buy in the shop")]
     private GameObject shopElementPrefab;
 
     private int credits;
@@ -43,6 +44,14 @@ public class ShopManager : MonoBehaviour
     private void Buy(ShopElement elem)
     {
         inventory.AddEquipement(elem.GetEquipement());
+        RemoveMoney(elem);
+    }
+
+    private void BuyUnit(ShopElement elem)
+    {
+        var unit = (Unit)elem.GetEquipement();
+        // TODO: Set specialization
+        inventory.AddEquipement(unit);
         RemoveMoney(elem);
     }
 
@@ -103,7 +112,7 @@ public class ShopManager : MonoBehaviour
 
             GameObject go = Instantiate(shopElementPrefab, currTransform);
             var rTransform = go.GetComponent<RectTransform>();
-            rTransform.anchoredPosition = rTransform.anchoredPosition + new Vector2(0f, yOffset * index);
+            rTransform.anchoredPosition += new Vector2(0f, yOffset * index);
             ShopElement se = go.GetComponent<ShopElement>();
             se.Init(eq, Buy);
             shopElems.Add(se);
@@ -114,7 +123,7 @@ public class ShopManager : MonoBehaviour
 
             GameObject go = Instantiate(shopElementPrefab, transformSquads);
             var rTransform = go.GetComponent<RectTransform>();
-            rTransform.anchoredPosition = rTransform.anchoredPosition + new Vector2(0f, yOffset * i);
+            rTransform.anchoredPosition += new Vector2(0f, yOffset * i);
             ShopElement se = go.GetComponent<ShopElement>();
             se.Init(sq, BuySquad);
             shopElems.Add(se);

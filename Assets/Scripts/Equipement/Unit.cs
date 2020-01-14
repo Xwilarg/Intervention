@@ -1,14 +1,13 @@
 ﻿using System.Text;
-using UnityEngine;
 
 public class Unit : AEquipement
 {
     public Unit(string name, string description, int price, Grade mgrade) : base(name, description, price)
     {
-        gender = Random.Range(0, 100) < 70 ? Gender.Male : Gender.Female;
-        race = Random.Range(0, 100) < 95 ? Race.Human : Race.Elf;
+        gender = LocalRandom.RandomNumber(0, 100) < 70 ? Gender.Male : Gender.Female;
+        race = LocalRandom.RandomNumber(0, 100) < 95 ? Race.Human : Race.Elf;
         grade = mgrade;
-        name = GenerateName();
+        unitName = GenerateName();
     }
 
     public override Type GetEquipementType()
@@ -17,7 +16,7 @@ public class Unit : AEquipement
     private Gender gender;
     private Race race;
     private Grade grade;
-    private string name;
+    private string unitName;
 
     private enum Gender
     {
@@ -57,8 +56,8 @@ public class Unit : AEquipement
     private string GenerateName()
     {
         StringBuilder str = new StringBuilder();
-        for (int i = Random.Range(2, 4); i >= 0; i--)
-            str.Append(syllabes[Random.Range(0, syllabes.Length)]);
+        for (int i = LocalRandom.RandomNumber(2, 4); i >= 0; i--)
+            str.Append(syllabes[LocalRandom.RandomNumber(0, syllabes.Length)]);
         return str.ToString();
     }
 }
