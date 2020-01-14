@@ -26,6 +26,9 @@ public class AcquisitionManager : MonoBehaviour
     [SerializeField]
     private RectTransform currentAddButton;
 
+    [SerializeField]
+    private UnitEditor unitEditor;
+
     private const float addButtonYInit = 70f;
     private const float selectionYOffset = -35f;
     private const float squadYOffset = -75f;
@@ -69,7 +72,8 @@ public class AcquisitionManager : MonoBehaviour
                     item.SetSquadLeader();
                 goSquad.GetComponent<SquadAcquisition>().Init(item, () => // Edit unit
                 {
-
+                    unitEditor.Init(item);
+                    unitEditor.gameObject.SetActive(true);
                 }, () => // Remove unit
                 {
                     squadList.Remove(goSquad);

@@ -8,6 +8,7 @@ public class Unit : AEquipement
         race = LocalRandom.RandomNumber(0, 100) < 95 ? Race.Human : Race.Elf;
         grade = mgrade;
         unitName = GenerateName();
+        weapon = EquipementList.handgun;
     }
 
     public void SetSquadLeader()
@@ -27,6 +28,7 @@ public class Unit : AEquipement
     private Grade grade;
     private string unitName;
     private bool isSquadLeader;
+    private Weapon weapon;
 
     private enum Gender
     {
@@ -45,7 +47,7 @@ public class Unit : AEquipement
         PV1, // Recruit
         PV2, // Second Class
         PFC, // First Class
-        CPL, // Caporal
+        CPL, // Corporal
         SGT // Sergeant
     }
 
