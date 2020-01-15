@@ -4230,6 +4230,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   title: {fileID: 1089837015}
+  weaponPanel: {fileID: 1115037085232540430}
 --- !u!1 &1633544518
 GameObject:
   m_ObjectHideFlags: 0
@@ -6023,6 +6024,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c94299067c8007346867b8505333ac72, type: 3}
+--- !u!114 &1115037085232540430 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5673671430027980320, guid: c94299067c8007346867b8505333ac72,
+    type: 3}
+  m_PrefabInstance: {fileID: 1115037085232540429}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e5ff65d3eff2644c8ddbf85c07eb160, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1767923481781060286
 PrefabInstance:
   m_ObjectHideFlags: 0

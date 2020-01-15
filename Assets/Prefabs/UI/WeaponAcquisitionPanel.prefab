@@ -286,6 +286,7 @@ GameObject:
   - component: {fileID: 1115037084875684249}
   - component: {fileID: 1115037084875684251}
   - component: {fileID: 1115037084875684248}
+  - component: {fileID: 5673671430027980320}
   m_Layer: 5
   m_Name: WeaponAcquisitionPanel
   m_TagString: Untagged
@@ -353,6 +354,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5673671430027980320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1115037084875684254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e5ff65d3eff2644c8ddbf85c07eb160, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectName: {fileID: 1115037085851897529}
+  editButton: {fileID: 1115037084936443124}
+  removeButton: {fileID: 1115037084260939110}
 --- !u!1 &1115037084936443130
 GameObject:
   m_ObjectHideFlags: 0

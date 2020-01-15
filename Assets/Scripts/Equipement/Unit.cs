@@ -17,6 +17,9 @@ public class Unit : AEquipement
     public void RemoveSquadLeader()
         => isSquadLeader = false;
 
+    public Weapon GetWeapon()
+        => weapon;
+
     public override string GetName()
         => base.GetName() + (isSquadLeader ? " (Squad Leader)" : "");
 
